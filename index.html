@@ -325,14 +325,14 @@
             background: rgba(138, 106, 58, 0.2);
         }
 
-        /* ===== КРУГЛАЯ СИНЯЯ ПЕЧАТЬ (как в жизни) ===== */
+        /* ===== КРУГЛАЯ СИНЯЯ ПЕЧАТЬ ===== */
         .stamp {
             display: inline-flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            width: 110px;
-            height: 110px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             border: 3px solid #1a5ca8;
             background: rgba(26, 92, 168, 0.03);
@@ -342,27 +342,26 @@
             transform: rotate(-12deg);
             margin-top: 4px;
             box-shadow: 0 0 20px rgba(26, 92, 168, 0.05);
-            line-height: 1.4;
+            line-height: 1.3;
             flex-shrink: 0;
-            padding: 10px;
+            padding: 12px;
         }
 
         .stamp .line1 {
             display: block;
-            font-size: 0.5rem;
-            letter-spacing: 1.5px;
+            font-size: 0.45rem;
+            letter-spacing: 1px;
         }
         .stamp .line2 {
             display: block;
-            font-size: 0.65rem;
-            letter-spacing: 1px;
+            font-size: 0.55rem;
+            letter-spacing: 0.5px;
             font-weight: 800;
             margin: 2px 0;
         }
         .stamp .line3 {
             display: block;
-            font-size: 0.45rem;
-            opacity: 0.6;
+            font-size: 0.5rem;
             letter-spacing: 1px;
         }
 
@@ -436,18 +435,18 @@
                 font-size: 0.9rem;
             }
             .stamp {
-                width: 85px;
-                height: 85px;
+                width: 90px;
+                height: 90px;
                 padding: 8px;
             }
             .stamp .line1 {
-                font-size: 0.4rem;
+                font-size: 0.35rem;
             }
             .stamp .line2 {
-                font-size: 0.5rem;
+                font-size: 0.4rem;
             }
             .stamp .line3 {
-                font-size: 0.35rem;
+                font-size: 0.4rem;
             }
             .style-btn {
                 padding: 6px 14px;
@@ -519,15 +518,15 @@
                 width: 40px;
             }
             .stamp {
-                width: 70px;
-                height: 70px;
+                width: 75px;
+                height: 75px;
                 padding: 6px;
             }
             .stamp .line1 {
-                font-size: 0.35rem;
+                font-size: 0.3rem;
             }
             .stamp .line2 {
-                font-size: 0.4rem;
+                font-size: 0.35rem;
             }
             .stamp .line3 {
                 font-size: 0.3rem;
@@ -592,9 +591,10 @@
 
                     <!-- КРУГЛАЯ СИНЯЯ ПЕЧАТЬ -->
                     <div class="stamp" id="stamp">
-                        <span class="line1">ОБЩЕСТВО</span>
-                        <span class="line2">ООО "НАША СЕМЬЯ"</span>
-                        <span class="line3">ИНН 0000000000</span>
+                        <span class="line1">ЗАКРЫТОЕ</span>
+                        <span class="line2">АКЦИОНЕРНОЕ</span>
+                        <span class="line3">ОБЩЕСТВО</span>
+                        <span class="line3" style="font-size:0.55rem; font-weight:800; margin-top:2px;">"НАША СЕМЬЯ"</span>
                     </div>
                 </div>
 
@@ -634,6 +634,16 @@
                 this.disabled = true;
 
                 const element = document.getElementById('certificate');
+
+                // Получаем размеры элемента
+                const width = element.scrollWidth;
+                const height = element.scrollHeight;
+
+                // Формат PDF: A4 (595x842 pt), но мы подгоняем под содержимое
+                // Используем landscape с соотношением сторон 1.414
+                const pdfWidth = width * 1.1;
+                const pdfHeight = height * 1.1;
+
                 const opt = {
                     margin: 0,
                     filename: 'Сертификат_Алексан_Филатов.pdf',
@@ -643,13 +653,13 @@
                         useCORS: true,
                         backgroundColor: '#faf5ee',
                         logging: false,
-                        width: element.scrollWidth,
-                        height: element.scrollHeight,
+                        width: width,
+                        height: height,
                     },
                     jsPDF: {
                         unit: 'px',
-                        format: [element.scrollWidth * 1.2, element.scrollHeight * 1.2],
-                        orientation: 'landscape'
+                        format: [pdfWidth, pdfHeight],
+                        orientation: pdfWidth > pdfHeight ? 'landscape' : 'portrait'
                     }
                 };
 
