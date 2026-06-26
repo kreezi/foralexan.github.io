@@ -438,7 +438,7 @@
             font-weight: 700;
             text-align: center;
             width: 100%;
-            max-width: 300px;
+            max-width: 350px;
             padding: 4px 8px;
             outline: none;
             transition: border-color 0.3s ease;
@@ -485,7 +485,7 @@
 
             .certificate .main-text .name-input {
                 font-size: 1.4rem;
-                max-width: 200px;
+                max-width: 220px;
             }
 
             .certificate .subtext {
@@ -570,7 +570,7 @@
             }
             .certificate .main-text .name-input {
                 font-size: 1.1rem;
-                max-width: 150px;
+                max-width: 170px;
             }
             .certificate .subtext {
                 font-size: 0.65rem;
@@ -637,7 +637,7 @@
                     <div class="main-text">
                         Настоящим подтверждается, что
                         <span class="name">
-                            <input type="text" class="name-input" placeholder="Имя брата" value="Алексей" id="nameInput" />
+                            <input type="text" class="name-input" id="nameInput" value="Александр Филатов" />
                         </span>
                         — <span class="highlight">лучший муж, сын и брат!</span>
                     </div>
@@ -696,9 +696,8 @@
             // =============================================
             const nameInput = document.getElementById('nameInput');
 
-            // Сброс имени
             document.getElementById('resetBtn').addEventListener('click', function() {
-                nameInput.value = 'Алексей';
+                nameInput.value = 'Александр Филатов';
             });
 
             // =============================================
@@ -707,19 +706,12 @@
             const downloadBtn = document.getElementById('downloadBtn');
 
             downloadBtn.addEventListener('click', function() {
-                // Показываем кнопку скачивания
                 const originalText = this.innerHTML;
                 this.innerHTML = '⏳ Генерация...';
                 this.disabled = true;
 
-                // Сохраняем состояние стиля
-                const currentStyle = certificate.className;
-
-                // Убеждаемся, что печать видна
                 const stamp = document.getElementById('stamp');
                 stamp.style.opacity = '1';
-
-                // Добавляем класс для печати
                 certificate.classList.add('for-print');
 
                 html2canvas(certificate, {
@@ -730,13 +722,11 @@
                     width: certificate.scrollWidth,
                     height: certificate.scrollHeight,
                 }).then(canvas => {
-                    // Создаём ссылку для скачивания
                     const link = document.createElement('a');
-                    link.download = 'Сертификат_лучшего_брата.png';
+                    link.download = 'Сертификат_Александр_Филатов.png';
                     link.href = canvas.toDataURL('image/png');
                     link.click();
 
-                    // Возвращаем кнопку
                     this.innerHTML = '✅ Скачано!';
                     setTimeout(() => {
                         this.innerHTML = originalText;
@@ -754,9 +744,8 @@
             });
 
             // =============================================
-            //  АНИМАЦИЯ ПЕЧАТИ ПРИ ЗАГРУЗКЕ
+            //  АНИМАЦИЯ ПЕЧАТИ
             // =============================================
-            // Печать появляется с задержкой
             const stamp = document.getElementById('stamp');
             stamp.style.opacity = '0';
 
@@ -764,7 +753,7 @@
                 stamp.style.opacity = '1';
             }, 800);
 
-            console.log('🏆 Сертификат лучшего брата готов!');
+            console.log('🏆 Сертификат для Александра Филатова готов!');
         })();
     </script>
 
