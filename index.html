@@ -4,11 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Сертификат лучшего брата 🏆</title>
-    
-    <!-- Подключаем html2canvas для скачивания -->
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
     </script>
-    
+
     <style>
         * {
             margin: 0;
@@ -32,7 +31,6 @@
             width: 100%;
         }
 
-        /* ===== ВЫБОР СТИЛЯ ===== */
         .style-selector {
             display: flex;
             gap: 10px;
@@ -70,7 +68,6 @@
             margin-right: 6px;
         }
 
-        /* ===== СЕРТИФИКАТ ===== */
         .certificate-wrapper {
             background: rgba(255, 255, 255, 0.03);
             border-radius: 24px;
@@ -90,9 +87,7 @@
             transition: all 0.5s ease;
         }
 
-        /* ===== СТИЛИ ДЛЯ ШАБЛОНОВ ===== */
-
-        /* --- КЛАССИЧЕСКИЙ (по умолчанию) --- */
+        /* ===== КЛАССИЧЕСКИЙ ===== */
         .certificate.classic {
             background: linear-gradient(145deg, #faf5ee, #f0e8d8);
             border: 8px double #c9a86a;
@@ -144,7 +139,7 @@
             border-right-width: 3px;
         }
 
-        /* --- СПОРТИВНЫЙ --- */
+        /* ===== СПОРТИВНЫЙ ===== */
         .certificate.sport {
             background: linear-gradient(145deg, #1a2a1a, #0d1a0d);
             border: 4px solid #ffd700;
@@ -181,9 +176,6 @@
             animation: stripeMove 3s linear infinite reverse;
         }
 
-        .certificate.sport .text {
-            color: #f5e6d3 !important;
-        }
         .certificate.sport .title {
             color: #ffd700 !important;
         }
@@ -197,8 +189,17 @@
             border-color: #ffd700 !important;
             color: #ffd700 !important;
         }
+        .certificate.sport .main-text {
+            color: #f5e6d3 !important;
+        }
+        .certificate.sport .main-text .highlight {
+            color: #ffd700 !important;
+        }
+        .certificate.sport .main-text .name {
+            color: #ffd700 !important;
+        }
 
-        /* --- РОКЕРСКИЙ --- */
+        /* ===== РОКЕРСКИЙ ===== */
         .certificate.rock {
             background: linear-gradient(145deg, #1a0a0a, #0d0505);
             border: 4px solid #ff2255;
@@ -224,9 +225,6 @@
             bottom: 30px;
         }
 
-        .certificate.rock .text {
-            color: #f5e6d3 !important;
-        }
         .certificate.rock .title {
             color: #ff2255 !important;
             text-shadow: 0 0 30px rgba(255, 34, 85, 0.2);
@@ -241,8 +239,17 @@
             border-color: #ff2255 !important;
             color: #ff2255 !important;
         }
+        .certificate.rock .main-text {
+            color: #f5e6d3 !important;
+        }
+        .certificate.rock .main-text .highlight {
+            color: #ff2255 !important;
+        }
+        .certificate.rock .main-text .name {
+            color: #ff2255 !important;
+        }
 
-        /* ===== ОБЩИЕ СТИЛИ ДЛЯ СОДЕРЖИМОГО ===== */
+        /* ===== ОБЩИЕ СТИЛИ ===== */
         .certificate .content {
             position: relative;
             z-index: 2;
@@ -289,13 +296,13 @@
         }
 
         .certificate .main-text .name {
-            font-size: 2rem;
+            font-size: 2.2rem;
             color: #8a3a2a;
             font-style: normal;
             font-weight: 700;
             display: block;
             margin: 6px 0;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
         }
 
         .certificate .subtext {
@@ -326,7 +333,7 @@
             background: rgba(138, 106, 58, 0.2);
         }
 
-        /* ===== ПЕЧАТЬ (анимированная) ===== */
+        /* ===== ПЕЧАТЬ ===== */
         .stamp {
             display: inline-block;
             border: 3px double #c9a86a;
@@ -415,45 +422,6 @@
             transform: translateY(0) scale(0.97);
         }
 
-        .btn-download.secondary {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 215, 150, 0.15);
-            box-shadow: none;
-            color: rgba(255, 215, 150, 0.6);
-        }
-
-        .btn-download.secondary:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 215, 150, 0.3);
-        }
-
-        /* ===== ИМЯ (редактируемое) ===== */
-        .name-input {
-            background: transparent;
-            border: none;
-            border-bottom: 2px dashed rgba(138, 106, 58, 0.2);
-            font-size: 2rem;
-            font-family: 'Georgia', serif;
-            color: #8a3a2a;
-            font-weight: 700;
-            text-align: center;
-            width: 100%;
-            max-width: 350px;
-            padding: 4px 8px;
-            outline: none;
-            transition: border-color 0.3s ease;
-            letter-spacing: 2px;
-        }
-
-        .name-input:focus {
-            border-bottom-color: #c9a86a;
-        }
-
-        .name-input::placeholder {
-            color: rgba(138, 106, 58, 0.2);
-            font-size: 1.2rem;
-        }
-
         /* ===== АДАПТИВ ===== */
         @media (max-width: 600px) {
             .certificate {
@@ -461,60 +429,45 @@
                 aspect-ratio: auto;
                 min-height: 460px;
             }
-
             .certificate .title {
                 font-size: 1.4rem;
                 letter-spacing: 2px;
             }
-
             .certificate .subtitle {
                 font-size: 0.7rem;
                 letter-spacing: 3px;
                 margin-bottom: 12px;
             }
-
             .certificate .main-text {
                 font-size: 1rem;
                 max-width: 95%;
                 margin-bottom: 12px;
             }
-
             .certificate .main-text .name {
-                font-size: 1.4rem;
+                font-size: 1.6rem;
+                letter-spacing: 2px;
             }
-
-            .certificate .main-text .name-input {
-                font-size: 1.4rem;
-                max-width: 220px;
-            }
-
             .certificate .subtext {
                 font-size: 0.75rem;
             }
-
             .certificate .signature-line .line {
                 width: 60px;
             }
-
             .certificate .signature {
                 font-size: 0.9rem;
             }
-
             .stamp {
                 font-size: 0.55rem;
                 padding: 6px 10px;
             }
-
             .style-btn {
                 padding: 6px 14px;
                 font-size: 0.75rem;
             }
-
             .btn-download {
                 padding: 12px 24px;
                 font-size: 0.9rem;
             }
-
             .certificate.classic .corner {
                 width: 18px;
                 height: 18px;
@@ -535,14 +488,12 @@
             .certificate.classic .corner.br {
                 right: 18px;
             }
-
             .certificate.classic .border-deco {
                 top: 12px;
                 left: 12px;
                 right: 12px;
                 bottom: 12px;
             }
-
             .certificate.rock .rock-border {
                 top: 8px;
                 left: 8px;
@@ -566,11 +517,7 @@
                 font-size: 0.85rem;
             }
             .certificate .main-text .name {
-                font-size: 1.1rem;
-            }
-            .certificate .main-text .name-input {
-                font-size: 1.1rem;
-                max-width: 170px;
+                font-size: 1.3rem;
             }
             .certificate .subtext {
                 font-size: 0.65rem;
@@ -597,7 +544,6 @@
 
     <div class="container">
 
-        <!-- ===== ВЫБОР СТИЛЯ ===== -->
         <div class="style-selector">
             <button class="style-btn active" data-style="classic">
                 <span class="emoji">🏛️</span> Классический
@@ -610,35 +556,28 @@
             </button>
         </div>
 
-        <!-- ===== СЕРТИФИКАТ ===== -->
         <div class="certificate-wrapper">
             <div class="certificate classic" id="certificate">
 
-                <!-- Декоративные элементы -->
                 <div class="border-deco"></div>
                 <div class="corner tl"></div>
                 <div class="corner tr"></div>
                 <div class="corner bl"></div>
                 <div class="corner br"></div>
 
-                <!-- Для спортивного стиля -->
                 <div class="sport-stripe"></div>
                 <div class="sport-stripe-b"></div>
 
-                <!-- Для рокерского стиля -->
                 <div class="rock-border"></div>
                 <div class="rock-skull">🤘</div>
 
-                <!-- Содержимое -->
                 <div class="content">
                     <div class="title">Сертификат</div>
                     <div class="subtitle">~ официальное признание ~</div>
 
                     <div class="main-text">
                         Настоящим подтверждается, что
-                        <span class="name">
-                            <input type="text" class="name-input" id="nameInput" value="Александр Филатов" />
-                        </span>
+                        <span class="name">Алексан Филатов</span>
                         — <span class="highlight">лучший муж, сын и брат!</span>
                     </div>
 
@@ -661,13 +600,9 @@
             </div>
         </div>
 
-        <!-- ===== КНОПКИ ===== -->
         <div class="actions">
             <button class="btn-download" id="downloadBtn">
                 ⬇️ Скачать сертификат
-            </button>
-            <button class="btn-download secondary" id="resetBtn">
-                🔄 Сбросить имя
             </button>
         </div>
 
@@ -675,9 +610,7 @@
 
     <script>
         (function() {
-            // =============================================
-            //  ВЫБОР СТИЛЯ
-            // =============================================
+            // ===== ВЫБОР СТИЛЯ =====
             const styleBtns = document.querySelectorAll('.style-btn');
             const certificate = document.getElementById('certificate');
 
@@ -691,18 +624,7 @@
                 });
             });
 
-            // =============================================
-            //  ИМЯ
-            // =============================================
-            const nameInput = document.getElementById('nameInput');
-
-            document.getElementById('resetBtn').addEventListener('click', function() {
-                nameInput.value = 'Александр Филатов';
-            });
-
-            // =============================================
-            //  СКАЧИВАНИЕ
-            // =============================================
+            // ===== СКАЧИВАНИЕ =====
             const downloadBtn = document.getElementById('downloadBtn');
 
             downloadBtn.addEventListener('click', function() {
@@ -723,7 +645,7 @@
                     height: certificate.scrollHeight,
                 }).then(canvas => {
                     const link = document.createElement('a');
-                    link.download = 'Сертификат_Александр_Филатов.png';
+                    link.download = 'Сертификат_Алексан_Филатов.png';
                     link.href = canvas.toDataURL('image/png');
                     link.click();
 
@@ -743,9 +665,7 @@
                 });
             });
 
-            // =============================================
-            //  АНИМАЦИЯ ПЕЧАТИ
-            // =============================================
+            // ===== ПЕЧАТЬ =====
             const stamp = document.getElementById('stamp');
             stamp.style.opacity = '0';
 
@@ -753,7 +673,7 @@
                 stamp.style.opacity = '1';
             }, 800);
 
-            console.log('🏆 Сертификат для Александра Филатова готов!');
+            console.log('🏆 Сертификат для Алексана Филатова готов!');
         })();
     </script>
 
