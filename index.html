@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Сертификат лучшего брата 🏆</title>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
+    <!-- Подключаем html2pdf для PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js">
     </script>
 
     <style>
@@ -185,10 +186,6 @@
         .certificate.sport .signature {
             color: #ffd700 !important;
         }
-        .certificate.sport .stamp {
-            border-color: #ffd700 !important;
-            color: #ffd700 !important;
-        }
         .certificate.sport .main-text {
             color: #f5e6d3 !important;
         }
@@ -233,10 +230,6 @@
             color: rgba(245, 230, 211, 0.5) !important;
         }
         .certificate.rock .signature {
-            color: #ff2255 !important;
-        }
-        .certificate.rock .stamp {
-            border-color: #ff2255 !important;
             color: #ff2255 !important;
         }
         .certificate.rock .main-text {
@@ -333,14 +326,14 @@
             background: rgba(138, 106, 58, 0.2);
         }
 
-        /* ===== ПЕЧАТЬ ===== */
+        /* ===== СИНЯЯ ПЕЧАТЬ (как в жизни) ===== */
         .stamp {
             display: inline-block;
-            border: 3px double #c9a86a;
+            border: 3px solid #1a5ca8;
             border-radius: 50%;
             padding: 10px 14px;
             font-size: 0.7rem;
-            color: #c9a86a;
+            color: #1a5ca8;
             font-weight: 700;
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -348,6 +341,22 @@
             animation: stampAppear 1.5s ease forwards, stampPulse 3s ease-in-out infinite 1.5s;
             opacity: 0;
             margin-top: 6px;
+            background: rgba(26, 92, 168, 0.04);
+            box-shadow: 0 0 20px rgba(26, 92, 168, 0.08);
+        }
+
+        /* Для спортивного стиля — синяя печать остаётся синей */
+        .certificate.sport .stamp {
+            border-color: #1a5ca8 !important;
+            color: #1a5ca8 !important;
+            background: rgba(26, 92, 168, 0.04) !important;
+        }
+
+        /* Для рокерского стиля — синяя печать остаётся синей */
+        .certificate.rock .stamp {
+            border-color: #1a5ca8 !important;
+            color: #1a5ca8 !important;
+            background: rgba(26, 92, 168, 0.04) !important;
         }
 
         @keyframes stampAppear {
@@ -591,6 +600,7 @@
                         <span class="line"></span>
                     </div>
 
+                    <!-- СИНЯЯ ПЕЧАТЬ -->
                     <div class="stamp" id="stamp">
                         <span class="line1">ООО</span>
                         <span class="line2">"НАША СЕМЬЯ"</span>
@@ -602,7 +612,7 @@
 
         <div class="actions">
             <button class="btn-download" id="downloadBtn">
-                ⬇️ Скачать сертификат
+                ⬇️ Скачать PDF
             </button>
         </div>
 
@@ -624,44 +634,49 @@
                 });
             });
 
-            // ===== СКАЧИВАНИЕ =====
+            // ===== СКАЧИВАНИЕ В PDF =====
             const downloadBtn = document.getElementById('downloadBtn');
 
             downloadBtn.addEventListener('click', function() {
                 const originalText = this.innerHTML;
-                this.innerHTML = '⏳ Генерация...';
+                this.innerHTML = '⏳ Генерация PDF...';
                 this.disabled = true;
 
                 const stamp = document.getElementById('stamp');
                 stamp.style.opacity = '1';
-                certificate.classList.add('for-print');
 
-                html2canvas(certificate, {
-                    scale: 3,
-                    useCORS: true,
-                    backgroundColor: '#faf5ee',
-                    logging: false,
-                    width: certificate.scrollWidth,
-                    height: certificate.scrollHeight,
-                }).then(canvas => {
-                    const link = document.createElement('a');
-                    link.download = 'Сертификат_Алексан_Филатов.png';
-                    link.href = canvas.toDataURL('image/png');
-                    link.click();
+                // Настройки для PDF
+                const element = document.getElementById('certificate');
+                const opt = {
+                    margin: 0,
+                    filename: 'Сертификат_Алексан_Филатов.pdf',
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: {
+                        scale: 3,
+                        useCORS: true,
+                        backgroundColor: '#faf5ee',
+                        logging: false,
+                        width: element.scrollWidth,
+                        height: element.scrollHeight,
+                    },
+                    jsPDF: {
+                        unit: 'px',
+                        format: [element.scrollWidth * 1.2, element.scrollHeight * 1.2],
+                        orientation: 'landscape'
+                    }
+                };
 
-                    this.innerHTML = '✅ Скачано!';
+                // Генерируем PDF
+                html2pdf().set(opt).from(element).save().then(function() {
+                    downloadBtn.innerHTML = '✅ Скачано!';
                     setTimeout(() => {
-                        this.innerHTML = originalText;
-                        this.disabled = false;
+                        downloadBtn.innerHTML = originalText;
+                        downloadBtn.disabled = false;
                     }, 2000);
-
-                    certificate.classList.remove('for-print');
-
-                }).catch(err => {
+                }).catch(function(err) {
                     console.error('Ошибка:', err);
-                    this.innerHTML = '❌ Ошибка, попробуйте снова';
-                    this.disabled = false;
-                    certificate.classList.remove('for-print');
+                    downloadBtn.innerHTML = '❌ Ошибка, попробуйте снова';
+                    downloadBtn.disabled = false;
                 });
             });
 
@@ -673,7 +688,7 @@
                 stamp.style.opacity = '1';
             }, 800);
 
-            console.log('🏆 Сертификат для Алексана Филатова готов!');
+            console.log('🏆 Сертификат для Алексана Филатова (PDF + синяя печать) готов!');
         })();
     </script>
 
